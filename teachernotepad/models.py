@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
+
 # Create your models here.
 
 
@@ -14,12 +16,17 @@ class Student(models.Model):
     def __str__(self):
         return f"{self.last_name} {self.first_name}"
 
+    def get_absolute_url(self):
+        
+        return reverse('student-detail', kwargs={'pk' : self.pk})
+
 
 class Group(models.Model):
     title = models.CharField(max_length=60)
     subject = models.CharField(max_length=60, blank=True)
 
-    students = models.ManyToManyField(Student)
+    # setting blank=true make the field optional
+    students = models.ManyToManyField(Student, blank=True)
 
     def __str__(self):
         return self.title
@@ -37,6 +44,11 @@ class Attendance(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     state = models.BooleanField(default=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['lesson', 'student'], name='lesson_student')
+        ]
 
     def __str__(self):
         return f"{self.lesson} {self.student} {self.state}"
