@@ -25,7 +25,9 @@
       <td>
           <a href="{{ group.get_absolute_url }}">View</a>,
           <a href="{% url 'group-update' group.pk %}">Update</a>,
-          <a href="{% url 'group-delete' group.pk %}">Delete</a>
+          <a href="{% url 'group-delete' group.pk %}">Delete</a>,
+          
+          <a href="{% url 'lesson-create' %}">Create lesson</a>
       </td>
     </tr>
   {% endfor %}

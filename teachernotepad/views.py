@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
-from .models import Student, Group
+from .models import Student, Group, Lesson
+from .forms import LessonForm
 from django.views import generic
 # Create your views here.
 
@@ -45,3 +46,8 @@ class  GroupUpdateView(generic.UpdateView):
 class GroupDeleteView(generic.DeleteView):
     model = Group
     success_url = reverse_lazy('group-list')
+
+class LessonCreateView(generic.CreateView):
+    model = Lesson
+    form_class = LessonForm
+    #fields = ['datetime', 'group', 'attendances']

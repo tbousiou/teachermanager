@@ -38,6 +38,8 @@ class Lesson(models.Model):
     datetime = models.DateTimeField(default=timezone.now)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
+    attendances = models.ManyToManyField(Student, through='Attendance')
+
     def __str__(self):
         return f"{self.group} {self.datetime}"
 
@@ -45,6 +47,7 @@ class Lesson(models.Model):
 class Attendance(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    
     state = models.BooleanField(default=True)
 
     class Meta:
