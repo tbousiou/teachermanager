@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from .models import Student
+from .models import Student, Group
 from django.views import generic
 # Create your views here.
 
@@ -24,3 +24,24 @@ class StudentUpdateView(generic.UpdateView):
 class StudentDeleteView(generic.DeleteView):
     model = Student
     success_url = reverse_lazy('student-list')
+
+
+class GroupListView(generic.ListView):
+    model = Group
+
+class GroupDetailView(generic.DetailView):
+    model = Group
+
+class GroupCreateView(generic.CreateView):
+    model = Group
+    fields = ['title', 'subject', 'students']
+
+class  GroupUpdateView(generic.UpdateView):
+    model =  Group
+    fields = ['title', 'subject', 'students']
+    # default is same as create view _form.html
+    template_name = "teachernotepad/group_update.html"
+
+class GroupDeleteView(generic.DeleteView):
+    model = Group
+    success_url = reverse_lazy('group-list')

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <section class="d-flex justify-content-between">
+    <h1>Groups</h1>
+    <span><a href="{% url 'group-create' %}" class="btn btn-primary">Create group</a></span>
+  </section>
+    
+    <table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Subject</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for group in group_list %}
+    <tr>
+      <th scope="row">{{group.id}}</th>
+      <td>{{group.title}}</td>
+      <td>{{group.subject}}</td>
+      <td>
+          <a href="{{ group.get_absolute_url }}">View</a>,
+          <a href="{% url 'group-update' group.pk %}">Update</a>,
+          <a href="{% url 'group-delete' group.pk %}">Delete</a>
+      </td>
+    </tr>
+  {% endfor %}
+    
+  </tbody>
+</table>
+{% endblock content %}

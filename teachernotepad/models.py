@@ -17,7 +17,6 @@ class Student(models.Model):
         return f"{self.last_name} {self.first_name}"
 
     def get_absolute_url(self):
-        
         return reverse('student-detail', kwargs={'pk' : self.pk})
 
 
@@ -30,6 +29,9 @@ class Group(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('group-detail', kwargs={'pk' : self.pk})
 
 
 class Lesson(models.Model):
