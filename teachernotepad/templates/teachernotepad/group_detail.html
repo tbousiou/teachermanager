@@ -3,7 +3,16 @@
 {% block content %}
 
     <p><a href="{% url 'group-list' %}">Go back to list</a></p>
-    <h1>Group</h1>
+
+    <section class="d-flex justify-content-between">
+        <h1>Group</h1>
+        <div>
+            <span><a href="{% url 'group-attendance' group.id %}" class="btn btn-secondary">Attendance</a></span>
+            <span><a href="{% url 'group-update' group.id %}" class="btn btn-success">Update group</a></span>
+            <span><a href="{% url 'group-delete' group.id %}" class="btn btn-danger">Delete group</a></span>
+        </div>
+    </section>
+
 
     <h3>Info</h3>
 
@@ -38,6 +47,5 @@
         </tr>
     
     {% endfor %}
-   
    
 {% endblock content %}

@@ -16,6 +16,10 @@ urlpatterns = [
     path('group/update/<int:pk>', views.GroupUpdateView.as_view(), name='group-update'),
     path('group/delete/<int:pk>', views.GroupDeleteView.as_view(), name='group-delete'),
 
+    path('group/lesson/create/<int:group_pk>', views.GroupLessonCreateView.as_view(), name='group-lesson-create'),
+
+    path('group/attendance/<int:group_pk>', views.GroupAttendanceView.as_view(), name='group-attendance'),
+
 
     path('lesson/create', views.LessonCreateView.as_view(), name='lesson-create'),
 ]

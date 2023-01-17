@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from .models import Student, Group, Lesson
-from .forms import LessonForm
+from .forms import LessonForm, GroupLessonForm
 from django.views import generic
 # Create your views here.
 
@@ -50,4 +50,25 @@ class GroupDeleteView(generic.DeleteView):
 class LessonCreateView(generic.CreateView):
     model = Lesson
     form_class = LessonForm
+
     #fields = ['datetime', 'group', 'attendances']
+
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+class GroupLessonCreateView(generic.CreateView):
+    model = Lesson
+    form_class = GroupLessonForm
+    success_url = '/dashboard/'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        group = get_object_or_404(Group, pk=self.kwargs['group_pk'])
+        self.object.group = group
+        self.object.save()
+        return super().form_valid(form)
+
+
+
+class GroupAttendanceView(generic.DetailView):
+    model = Group
+    template_name = 'teachernotepad/group_attendance.html'

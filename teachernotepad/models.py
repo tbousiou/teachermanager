@@ -42,6 +42,8 @@ class Lesson(models.Model):
 
     def __str__(self):
         return f"{self.group} {self.datetime}"
+    
+    
 
 
 class Attendance(models.Model):
