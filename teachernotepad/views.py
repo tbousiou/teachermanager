@@ -91,3 +91,13 @@ class GroupAttendanceView(generic.DetailView):
 
         return context
 
+
+class AttendanceUpdateView(generic.UpdateView):
+    model = Attendance
+    fields = ['state']
+    # default is same as create view _form.html
+    template_name = "teachernotepad/attendance_update.html"
+    #success_url = reverse_lazy('group-attendance', kwargs = {'pk' : self.object.group.id, })
+
+    def get_success_url(self):
+        return reverse_lazy('group-attendance', kwargs = {'pk' : self.object.lesson.group.id })

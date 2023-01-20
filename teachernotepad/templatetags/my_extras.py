@@ -8,6 +8,6 @@ def attendace_color_class(state):
         state: True or False
     """
     if state:
-        return "text-success"
+        return "link-success"
     else:
-        return "text-danger"
+        return "link-danger"

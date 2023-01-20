@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('group/<int:pk>/attendance', views.GroupAttendanceView.as_view(), name='group-attendance'),
 
-
+    path('attendance/<int:pk>/update',views.AttendanceUpdateView.as_view(), name='attendance-update'),
+                                                                         
     path('lesson/create', views.LessonCreateView.as_view(), name='lesson-create'),
 ]

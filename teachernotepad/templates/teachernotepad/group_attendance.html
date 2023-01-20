@@ -32,7 +32,7 @@
                     <td>{{ item.grouper.last_name }}</td>
                     <td>{{ item.grouper.first_name }}</td>
                     {% for attendance in item.list  %}
-                        <td class="{{ attendance.state | attendace_color_class}}">{{ attendance.state }}</td>
+                        <td class=""><a href="{% url 'attendance-update' attendance.id %}" class="{{ attendance.state | attendace_color_class}}">{{ attendance.state }}</a></td>
                     {% endfor %}
                 </tr>
             {% endfor %}
