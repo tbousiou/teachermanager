@@ -8,6 +8,7 @@
         <h1>Group</h1>
         <div>
             <span><a href="{% url 'group-attendance' group.id %}" class="btn btn-secondary">Attendance</a></span>
+            <span><a href="{% url 'group-lesson-create' group.id %}" class="btn btn-secondary">Create lesson</a></span>
             <span><a href="{% url 'group-update' group.id %}" class="btn btn-success">Update group</a></span>
             <span><a href="{% url 'group-delete' group.id %}" class="btn btn-danger">Delete group</a></span>
         </div>

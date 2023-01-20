@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from .models import Student, Group, Lesson
+from .models import Student, Group, Lesson, Attendance
 from .forms import LessonForm, GroupLessonForm
 from django.views import generic
 # Create your views here.
@@ -58,17 +58,36 @@ from django.http import HttpResponseRedirect
 class GroupLessonCreateView(generic.CreateView):
     model = Lesson
     form_class = GroupLessonForm
-    success_url = '/dashboard/'
+    # success_url = reverse_lazy('lesson-detail')
+
+    def get_success_url(self):
+        return reverse_lazy('group-attendance', kwargs = {'pk' : self.object.group.id, })
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        group = get_object_or_404(Group, pk=self.kwargs['group_pk'])
-        self.object.group = group
-        self.object.save()
+        # https://www.django-antipatterns.com/pattern/set-values-to-a-created-updated-object-in-a-class-based-view.html 
+        group = get_object_or_404(Group, pk=self.kwargs['pk'])
+        form.instance.group = group
+        # for st in form.instance.group.students.all():
+        #     att = Attendance(lesson=form.instance,student=st)
+        #     #att.save()
+        #     form.instance.attendances.add(att)
+        #     print(att)
+        
         return super().form_valid(form)
 
 
-
+from django_pivot.pivot import pivot
 class GroupAttendanceView(generic.DetailView):
     model = Group
     template_name = 'teachernotepad/group_attendance.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        group_attendaces = Attendance.objects.filter(lesson__group=self.object.id).order_by('student', 'lesson__datetime')
+        
+        context['group_attendaces'] = group_attendaces
+
+        return context
+

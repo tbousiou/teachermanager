@@ -18,6 +18,10 @@ class Student(models.Model):
 
     def get_absolute_url(self):
         return reverse('student-detail', kwargs={'pk' : self.pk})
+    
+    @property
+    def fullname(self):
+        return f"{self.last_name} {self.first_name}"
 
 
 class Group(models.Model):
@@ -42,6 +46,18 @@ class Lesson(models.Model):
 
     def __str__(self):
         return f"{self.group} {self.datetime}"
+    
+    
+
+    def save(self, *args, **kwargs):
+        # print(self.group.students.all())
+        
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+        # What the fuck i am doing here
+        for st in self.group.students.all():
+            att = Attendance(lesson=self,student=st)
+            att.save()
+            self.attendances.add(att.student)
     
     
 

@@ -1,34 +1,43 @@
 {% extends 'base.html' %}
+{% load my_extras %}
 
 {% block content %}
 
     <p><a href="{% url 'group-detail' group.id %}">Go back to group</a></p>
 
+    <section class="d-flex justify-content-between">
+        <h1>Group attendance for {{ group.title}}</h1>
+        <div>
+            <span><a href="{% url 'group-lesson-create' group.id %}" class="btn btn-secondary">Add lesson</a></span>
+        </div>
+    </section>
    
-
-
-   
-
-
     <table class="table table-striped table-hover">
-    <thead>
-        <tr>
-        <th scope="col">#</th>
-        <th scope="col">Last name</th>
-        <th scope="col">First name</th>
-      
-        </tr>
-    </thead>
-    <tbody>
-
-    {% for student in group.students.all %}
-        <tr>
-        <th scope="row">{{student.id}}</th>
-        <td>{{student.last_name}}</td>
-        <td>{{student.first_name}}</td>
-      
-        </tr>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Last name</th>
+                <th scope="col">First name</th>
+                {% for lesson in group.lesson_set.all  %}
+                    <th>{{ lesson.datetime }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
     
-    {% endfor %}
+        <tbody>
+            {% regroup group_attendaces by student as students_list %}
+            {% for item in  students_list %}
+                <tr>
+                    <td>{{ item.grouper.id }}</td>
+                    <td>{{ item.grouper.last_name }}</td>
+                    <td>{{ item.grouper.first_name }}</td>
+                    {% for attendance in item.list  %}
+                        <td class="{{ attendance.state | attendace_color_class}}">{{ attendance.state }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+
+</table>
 
 {% endblock content %}
