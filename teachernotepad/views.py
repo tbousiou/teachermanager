@@ -76,7 +76,7 @@ class GroupLessonCreateView(generic.CreateView):
         return super().form_valid(form)
 
 
-from django_pivot.pivot import pivot
+# from django_pivot.pivot import pivot
 class GroupAttendanceView(generic.DetailView):
     model = Group
     template_name = 'teachernotepad/group_attendance.html'
